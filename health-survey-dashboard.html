@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Análisis de Encuesta de Salud</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.2/papaparse.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        .dashboard {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        .chart-container {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        canvas {
+            max-height: 300px;
+        }
+        .chart-title {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard">
+        <h1>📊 Panel de Análisis de Encuesta de Salud</h1>
+        <div class="chart-grid" id="chartContainer"></div>
+    </div>
+
+    <script>
+        // Configuración de colores
+        const colorPalette = [
+            '#3498db', '#2ecc71', '#e74c3c', '#f39c12', 
+            '#9b59b6', '#1abc9c', '#34495e', '#16a085'
+        ];
+
+        // Función para crear un gráfico
+        function createChart(ctx, title, labels, data) {
+            return new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: data,
+                        backgroundColor: colorPalette.slice(0, labels.length)
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        title: {
+                            display: true,
+                            text: title,
+                            font: {
+                                size: 16
+                            }
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Función para procesar los datos
+        function processData(data) {
+            const columns = [
+                'Que enfermedades son las mas contagiables ?',
+                'Cual es la enfermedad infecciosa mas comun en la comunidad ',
+                'Cual es la principal via de transmision de la influenza ',
+                'Cual es el grupo de edad mas afectado por la tuberculosis ',
+                'cual es la enfermedad cronica mas prevalente en la comunidad ',
+                'Cual es el principal factor de riesgo para desarollar una enfermedad cardio vascular ',
+                'Cual es la enfermedad emergente mas preocupante en la actualidad',
+                'Cual es la principal medida de prevencion para evitar la transmicion de COVID19',
+                'Cual es el papel de la vigilancia epidemiologica en la detecccion de enfermedades emergentes'
+            ];
+
+            const chartContainer = document.getElementById('chartContainer');
+
+            columns.forEach((column, index) => {
+                // Contar frecuencia de respuestas
+                const responseCounts = data.reduce((acc, row) => {
+                    const response = row[column];
+                    acc[response] = (acc[response] || 0) + 1;
+                    return acc;
+                }, {});
+
+                // Crear contenedor para el gráfico
+                const chartDiv = document.createElement('div');
+                chartDiv.className = 'chart-container';
+                
+                const canvas = document.createElement('canvas');
+                canvas.id = `chart-${index}`;
+                chartDiv.appendChild(canvas);
+
+                chartContainer.appendChild(chartDiv);
+
+                // Crear gráfico
+                const ctx = canvas.getContext('2d');
+                createChart(
+                    ctx, 
+                    column.replace('?', ''), 
+                    Object.keys(responseCounts), 
+                    Object.values(responseCounts)
+                );
+            });
+        }
+
+        // Cargar y procesar datos
+        fetch('unu.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                const parsedData = Papa.parse(csvText, { 
+                    header: true,
+                    skipEmptyLines: true
+                }).data;
+                processData(parsedData);
+            })
+            .catch(error => {
+                console.error('Error cargando los datos:', error);
+                document.getElementById('chartContainer').innerHTML = 
+                    `<p>Error al cargar los datos: ${error.message}</p>`;
+            });
+    </script>
+</body>
+</html>
