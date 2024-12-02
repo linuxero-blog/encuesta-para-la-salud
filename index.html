@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <title>Panel de Análisis de Encuesta de Salud</title>
@@ -13,50 +14,460 @@
             padding: 20px;
             color: #333;
         }
+        
         .dashboard {
             max-width: 1200px;
             margin: 0 auto;
             background-color: white;
             border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             padding: 30px;
         }
+        
         h1 {
             text-align: center;
             color: #2c3e50;
             margin-bottom: 30px;
         }
+        
         .chart-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
+        
         .chart-container {
             background-color: #f8f9fa;
             border-radius: 10px;
             padding: 20px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
+        
         canvas {
             max-height: 300px;
         }
+        
         .chart-title {
             text-align: center;
             margin-bottom: 15px;
             color: #34495e;
         }
+        
+        .prevencion-container {
+            margin-top: 40px;
+            padding: 20px;
+        }
+        
+        .section-title {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        
+        .prevencion-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+        
+        .prevencion-card {
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+        
+        .prevencion-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .prevencion-card h3 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 20px;
+            text-align: center;
+            border-bottom: 2px solid #e9ecef;
+            padding-bottom: 10px;
+        }
+        
+        .prevencion-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .prevencion-card ul li {
+            padding: 10px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .prevencion-card ul li:last-child {
+            border-bottom: none;
+        }
+        
+        .prevencion-card strong {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .nested-list {
+            margin-left: 20px !important;
+            margin-top: 5px;
+            font-size: 0.95em;
+        }
+        
+        .nested-list li {
+            padding: 5px 0 !important;
+            border-bottom: none !important;
+            color: #666 !important;
+        }
+        
+        @media (max-width: 768px) {
+            .prevencion-grid {
+                grid-template-columns: 1fr;
+            }
+            .prevencion-card {
+                padding: 20px;
+            }
+        }
+        
+        .prevencion-card .nested-list li:before {
+            content: "•";
+            color: #3498db;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .prevencion-card:nth-child(odd) {
+            background-color: #f8f9fa;
+        }
+        
+        .prevencion-card:nth-child(even) {
+            background-color: #ffffff;
+        }
+        
+        .prevencion-card strong {
+            color: #2c3e50;
+            font-weight: 600;
+            display: block;
+            margin-top: 10px;
+        }
+        
+        .prevencion-card h3:before {
+            margin-right: 8px;
+        }
+        
+        @media (max-width: 480px) {
+            .prevencion-card {
+                padding: 15px;
+            }
+            .prevencion-card h3 {
+                font-size: 18px;
+            }
+            .nested-list {
+                margin-left: 15px !important;
+            }
+        }
+        
+        @media (min-width: 1200px) {
+            .prevencion-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
     </style>
 </head>
+
 <body>
     <div class="dashboard">
         <h1>📊 Panel de Análisis de Encuesta de Salud</h1>
         <div class="chart-grid" id="chartContainer"></div>
+
+        <!-- Sección expandida de promoción, prevención y epidemiología -->
+        <div class="prevencion-container">
+            <h2 class="section-title">Promoción, Prevención y Epidemiología</h2>
+            <div class="prevencion-grid">
+                <div class="prevencion-card">
+                    <h3>🦠 Prevención de Enfermedades</h3>
+                    <ul>
+                        <li><strong>Prevención Primaria:</strong> Vacunación, educación sanitaria</li>
+                        <li><strong>Prevención Secundaria:</strong> Detección temprana, tamizajes</li>
+                        <li><strong>Prevención Terciaria:</strong> Rehabilitación, control de complicaciones</li>
+                        <li><strong>Prevención Cuaternaria:</strong> Evitar intervenciones innecesarias</li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>📊 Indicadores Epidemiológicos</h3>
+                    <ul>
+                        <li><strong>Prevalencia:</strong> Casos totales en un momento dado</li>
+                        <li><strong>Incidencia:</strong> Casos nuevos en un período</li>
+                        <li><strong>Morbilidad:</strong> Frecuencia de enfermedad</li>
+                        <li><strong>Mortalidad:</strong> Frecuencia de muertes</li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>🏥 Diagnóstico y Tratamiento</h3>
+                    <ul>
+                        <li><strong>Dx Disponibles:</strong>
+                            <ul class="nested-list">
+                                <li>Pruebas de laboratorio</li>
+                                <li>Estudios de imagen</li>
+                                <li>Evaluación clínica</li>
+                            </ul>
+                        </li>
+                        <li><strong>Tx Disponibles:</strong>
+                            <ul class="nested-list">
+                                <li>Farmacológico</li>
+                                <li>Quirúrgico</li>
+                                <li>Terapéutico</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>⏳ Períodos de Enfermedad</h3>
+                    <ul>
+                        <li><strong>Período Latente:</strong> Sin síntomas detectables</li>
+                        <li><strong>Período Prodrómico:</strong> Síntomas iniciales</li>
+                        <li><strong>Período Clínico:</strong> Manifestación completa</li>
+                        <li><strong>Período Convalecencia:</strong> Recuperación</li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>🔍 Factores de Riesgo</h3>
+                    <ul>
+                        <li><strong>Modificables:</strong>
+                            <ul class="nested-list">
+                                <li>Tabaquismo</li>
+                                <li>Sedentarismo</li>
+                                <li>Dieta inadecuada</li>
+                            </ul>
+                        </li>
+                        <li><strong>No Modificables:</strong>
+                            <ul class="nested-list">
+                                <li>Edad</li>
+                                <li>Género</li>
+                                <li>Genética</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>📈 Vigilancia Epidemiológica</h3>
+                    <ul>
+                        <li><strong>Sistemas de Vigilancia:</strong>
+                            <ul class="nested-list">
+                                <li>Notificación obligatoria</li>
+                                <li>Monitoreo continuo</li>
+                                <li>Investigación de brotes</li>
+                            </ul>
+                        </li>
+                        <li><strong>Acciones:</strong>
+                            <ul class="nested-list">
+                                <li>Control de casos</li>
+                                <li>Seguimiento de contactos</li>
+                                <li>Medidas preventivas</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>🧬 Determinantes de Salud</h3>
+                    <ul>
+                        <li><strong>Biológicos:</strong>
+                            <ul class="nested-list">
+                                <li>Genética y herencia</li>
+                                <li>Sistema inmunológico</li>
+                                <li>Edad y desarrollo</li>
+                            </ul>
+                        </li>
+                        <li><strong>Ambientales:</strong>
+                            <ul class="nested-list">
+                                <li>Calidad del aire</li>
+                                <li>Acceso a agua potable</li>
+                                <li>Condiciones de vivienda</li>
+                            </ul>
+                        </li>
+                        <li><strong>Sociales:</strong>
+                            <ul class="nested-list">
+                                <li>Nivel educativo</li>
+                                <li>Ingresos económicos</li>
+                                <li>Acceso a servicios de salud</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>🏃‍♂️ Estilos de Vida Saludables</h3>
+                    <ul>
+                        <li><strong>Actividad Física:</strong>
+                            <ul class="nested-list">
+                                <li>30 minutos diarios mínimo</li>
+                                <li>Ejercicio aeróbico regular</li>
+                                <li>Fortalecimiento muscular</li>
+                            </ul>
+                        </li>
+                        <li><strong>Alimentación:</strong>
+                            <ul class="nested-list">
+                                <li>Dieta balanceada</li>
+                                <li>Control de porciones</li>
+                                <li>Hidratación adecuada</li>
+                            </ul>
+                        </li>
+                        <li><strong>Descanso:</strong>
+                            <ul class="nested-list">
+                                <li>7-8 horas de sueño</li>
+                                <li>Manejo del estrés</li>
+                                <li>Pausas activas</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>🔬 Investigación Epidemiológica</h3>
+                    <ul>
+                        <li><strong>Tipos de Estudios:</strong>
+                            <ul class="nested-list">
+                                <li>Casos y controles</li>
+                                <li>Cohortes</li>
+                                <li>Transversales</li>
+                                <li>Ensayos clínicos</li>
+                            </ul>
+                        </li>
+                        <li><strong>Metodología:</strong>
+                            <ul class="nested-list">
+                                <li>Recolección de datos</li>
+                                <li>Análisis estadístico</li>
+                                <li>Interpretación de resultados</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>🌍 Salud Global</h3>
+                    <ul>
+                        <li><strong>Desafíos Actuales:</strong>
+                            <ul class="nested-list">
+                                <li>Enfermedades emergentes</li>
+                                <li>Resistencia antimicrobiana</li>
+                                <li>Cambio climático y salud</li>
+                            </ul>
+                        </li>
+                        <li><strong>Cooperación Internacional:</strong>
+                            <ul class="nested-list">
+                                <li>Programas de vacunación</li>
+                                <li>Control de pandemias</li>
+                                <li>Investigación colaborativa</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>📱 Tecnología en Salud</h3>
+                    <ul>
+                        <li><strong>Telemedicina:</strong>
+                            <ul class="nested-list">
+                                <li>Consultas virtuales</li>
+                                <li>Monitoreo remoto</li>
+                                <li>Apps de salud</li>
+                            </ul>
+                        </li>
+                        <li><strong>Innovaciones:</strong>
+                            <ul class="nested-list">
+                                <li>Inteligencia artificial</li>
+                                <li>Dispositivos médicos</li>
+                                <li>Análisis de big data</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>🎯 Grupos de Riesgo</h3>
+                    <ul>
+                        <li><strong>Población Vulnerable:</strong>
+                            <ul class="nested-list">
+                                <li>Adultos mayores</li>
+                                <li>Niños menores de 5 años</li>
+                                <li>Embarazadas</li>
+                                <li>Inmunodeprimidos</li>
+                            </ul>
+                        </li>
+                        <li><strong>Intervenciones Específicas:</strong>
+                            <ul class="nested-list">
+                                <li>Programas de vacunación</li>
+                                <li>Controles periódicos</li>
+                                <li>Educación focalizada</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>🌿 Medicina Preventiva</h3>
+                    <ul>
+                        <li><strong>Estrategias:</strong>
+                            <ul class="nested-list">
+                                <li>Chequeos regulares</li>
+                                <li>Screening poblacional</li>
+                                <li>Consejería en salud</li>
+                            </ul>
+                        </li>
+                        <li><strong>Áreas de Enfoque:</strong>
+                            <ul class="nested-list">
+                                <li>Salud cardiovascular</li>
+                                <li>Salud mental</li>
+                                <li>Nutrición</li>
+                                <li>Actividad física</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="prevencion-card">
+                    <h3>📋 Gestión Sanitaria</h3>
+                    <ul>
+                        <li><strong>Planificación:</strong>
+                            <ul class="nested-list">
+                                <li>Programas de salud</li>
+                                <li>Asignación de recursos</li>
+                                <li>Evaluación de impacto</li>
+                            </ul>
+                        </li>
+                        <li><strong>Indicadores:</strong>
+                            <ul class="nested-list">
+                                <li>Cobertura sanitaria</li>
+                                <li>Eficiencia de servicios</li>
+                                <li>Satisfacción usuarios</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
         // Configuración de colores
         const colorPalette = [
-            '#3498db', '#2ecc71', '#e74c3c', '#f39c12', 
+            '#3498db', '#2ecc71', '#e74c3c', '#f39c12',
             '#9b59b6', '#1abc9c', '#34495e', '#16a085'
         ];
 
@@ -116,7 +527,7 @@
                 // Crear contenedor para el gráfico
                 const chartDiv = document.createElement('div');
                 chartDiv.className = 'chart-container';
-                
+
                 const canvas = document.createElement('canvas');
                 canvas.id = `chart-${index}`;
                 chartDiv.appendChild(canvas);
@@ -126,9 +537,9 @@
                 // Crear gráfico
                 const ctx = canvas.getContext('2d');
                 createChart(
-                    ctx, 
-                    column.replace('?', ''), 
-                    Object.keys(responseCounts), 
+                    ctx,
+                    column.replace('?', ''),
+                    Object.keys(responseCounts),
                     Object.values(responseCounts)
                 );
             });
@@ -138,7 +549,7 @@
         fetch('unu.csv')
             .then(response => response.text())
             .then(csvText => {
-                const parsedData = Papa.parse(csvText, { 
+                const parsedData = Papa.parse(csvText, {
                     header: true,
                     skipEmptyLines: true
                 }).data;
@@ -146,9 +557,10 @@
             })
             .catch(error => {
                 console.error('Error cargando los datos:', error);
-                document.getElementById('chartContainer').innerHTML = 
+                document.getElementById('chartContainer').innerHTML =
                     `<p>Error al cargar los datos: ${error.message}</p>`;
             });
     </script>
 </body>
+
 </html>
